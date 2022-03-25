@@ -4,6 +4,7 @@
 // You can inspect what code gets generated using
 // `cargo expand --test health_check` (<- name of the test file) #[tokio::test]
 use std::net::TcpListener;
+use zero2prod::startup::run;
 
 #[tokio::test]
 async fn health_check_works() {
@@ -77,7 +78,7 @@ fn spawn_app() -> String {
 
     let port = listener.local_addr().unwrap().port();
 
-    let server = zero2prod::run(listener).expect("Fail to bind address");
+    let server = zero2prod::startup::run(listener).expect("Fail to bind address");
     let _ = tokio::spawn(server);
 
     format!("http://127.0.0.1:{}", port)
